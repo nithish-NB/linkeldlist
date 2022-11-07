@@ -1,0 +1,59 @@
+class node{
+    int data;
+    node next;
+    node(){
+        data= 0;
+    }
+    node( int d){
+        data=d;
+        next= null;
+    }
+}
+class linkedlist{
+    node head;
+    void trans( node h){
+        node curr= h;
+        while(curr!=null){
+            System.out.print(curr.data);
+            curr=curr.next;
+        }
+    }
+    void reverse( node h){
+        node curr= h;
+        node index=h;
+        node prev= null;
+        while(curr!=null){
+            curr=curr.next;
+            index.next=prev;
+            prev =index;
+            index=curr;
+        }
+        trans(prev);
+    }
+    int middle(node h){
+        node slow=h;
+        node fast=h;
+        while(fast.next!= null&& fast.next.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }return slow.data;
+   }
+}
+public class Main {
+
+    public static void main(String[] args) {
+        linkedlist l= new linkedlist();
+        node temp = new node(1);
+        l.head=temp;
+        node temp1= new node(2);
+        temp.next=temp1;
+        node temp2= new node(3);
+        temp1.next=temp2;
+        node temp3= new node(4);
+        temp2.next=temp3;
+        temp3.next= new node(5);
+        temp3.next.next=new node(6);
+        //l.reverse(l.head);
+        System.out.println(l.middle(l.head));
+
+    }
