@@ -1,0 +1,66 @@
+class Solution {
+    ListNode merge( ListNode a ,ListNode b){
+        if( a==null){
+            return b;
+        }
+        if( b==null){
+            return a;
+        }
+        ListNode result;
+        if( a.val<=b.val){
+            result =a;
+            result.next=merge( a.next,b);
+         }
+        else{
+            result= b;
+            result.next=merge(a,b.next);
+        }
+        
+        
+    return result;}
+    ListNode sorting( ListNode h){
+        if( h==null|| h.next==null){
+            return h;
+            }
+        ListNode middle= mid(h);
+        ListNode middlenext= middle.next;
+        middle.next=null;
+        ListNode left= sorting(h);
+        ListNode right= sorting(middlenext);
+        ListNode list = merge(left, right);
+   return list; }
+    
+    ListNode mid(ListNode h){
+        if( h ==null){
+            return h;
+        }
+        ListNode slow = h;
+        ListNode fast = h;
+        while(fast.next!=null && fast.next.next!=null){
+            slow =slow.next;
+            fast=fast.next.next;
+}
+    return slow;}
+    
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1==null && list2== null){
+            return list1;
+        }
+        
+        if(list1==null && list2!= null){
+            return list2;
+        }
+        if(list1!=null && list2== null){
+            return list1;
+        }
+        
+        ListNode curr= list1;
+        ListNode index=list1;
+        while(index.next!=null){
+            index=index.next;
+        }
+        index.next=list2;
+        ListNode curr1=sorting(curr);
+        
+     return curr1;}
+}
