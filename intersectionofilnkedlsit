@@ -20,3 +20,47 @@ if( headA==null){
         }
         
         return curr1;}
+  ################################################################
+  if( headA==null){
+            return headB;
+        }
+        if( headB==null){
+            return headA;
+        }
+
+        ListNode curr1= headA;
+        while(curr1!=null){
+            ListNode curr2= headB;
+            while( curr2!=null){
+                if( curr1==curr2){
+                    return curr1;
+                }
+                curr2=curr2.next;
+            }
+            curr1=curr1.next;
+        }
+###############################################################
+ if( headA==null){
+            return headB;
+        }
+        if( headB==null){
+            return headA;
+        }
+        Set<ListNode> set= new HashSet<>();
+        ListNode curr1= headA;
+         ListNode curr2= headB;
+        while(curr1!=null){
+            set.add(curr1);
+            curr1=curr1.next;
+        }
+        boolean flag= true;
+        while(curr2!=null){
+            flag=set.add(curr2);
+            if(flag==false){
+                return curr2;
+            }
+            curr2=curr2.next;
+        }
+
+
+
