@@ -4,6 +4,50 @@ if( headA==null){
         if( headB==null){
             return headA;
         }
+ ListNode curr1= headA;
+         ListNode curr2= headB;
+         int l1=1;
+         int l2=1;
+         while(curr1!=null){
+             l1++;
+             curr1=curr1.next;
+
+         }
+         while( curr2!=null){
+             l2++;
+             curr2=curr2.next;
+         }
+         int n= Math.abs(l2-l1);
+         ListNode curr21 ;
+             ListNode curr11 ;
+         if(l1>l2){
+             curr21 =headA;
+              curr11 =headB;
+         }else{
+               curr21 =headB;
+              curr11 =headA;
+
+         }
+         //ListNode curr11= headA;
+         //ListNode curr21= headB;
+         for(int i=0;i<n;i++){
+             curr21= curr21.next;
+         }
+         while(curr21!=null){
+             if(curr11==curr21){
+                 return curr11;
+             }
+             curr11=curr11.next;
+             curr21=curr21.next;
+         }
+
+#################################################
+if( headA==null){
+            return headB;
+        }
+        if( headB==null){
+            return headA;
+        }
         ListNode curr1= headA;
         ListNode curr2= headB;
         while( curr1!=curr2){
