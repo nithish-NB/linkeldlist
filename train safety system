@@ -1,0 +1,76 @@
+Programming for Node MCU
+ #include <ESP8266WiFi.h>;
+ #include <WiFiClient.h>;
+ #include <ThingSpeak.h>;
+ #include<Servo.h>;
+ Servo servo;
+ const char* ssid = "NithishNB";
+ const char* password = "12345678";
+ int value;//IR sensor value
+ int flame = 16; // D0 Pin of nodemcu
+ int flamevalue=0;
+
+ WiFiClient client;
+ unsigned long myChannelNumber = 1530666;
+ const char * myWriteAPIKey = "PXDEIL2WKNIS67UA";
+
+ void setup()
+ {
+ pinMode(2,INPUT);// initialize digital pin 2 as an input D4 pin IR sensor
+ pinMode(16,INPUT);//D0 flame sensor
+ pinMode(4,OUTPUT);//for buzzer D2
+ pinMode(0,OUTPUT);//D3pin LED
+ Serial.begin(115200);
+ servo.attach(13);//13th Gpio d7pin
+ servo.write(0);//default position
+ delay(100);
+
+ // Connect to WiFi network
+ WiFi.begin(ssid, password);
+ ThingSpeak.begin(client);
+ }
+ void loop()
+ {
+ value = digitalRead(2); // read value on pin 2 d4 IR sensor
+ flamevalue = analogRead(flame); //Read Analog values and Store in a
+variable of flame
+ if(value==1){
+ digitalWrite(4,HIGH);//Buzzer ON
+ digitalWrite(0,HIGH);// LED ON
+ Serial.println("Link not connected");
+ Serial.println(value); // print value on serial terminal
+ }
+ else{
+ digitalWrite(4,LOW);// Buzzer OFF
+ digitalWrite(0,LOW);//LED OFF
+ Serial.println("Link connected");
+ Serial.println(value); // print value on serial terminal
+ }
+ if(flamevalue<100){
+ Serial.println("Fire Detected in Train");
+ digitalWrite(4,HIGH);//
+ servo.write(90);
+ digitalWrite(0,HIGH);
+ delay(100);
+ }
+ else{
+ Serial.println("No Fire Detected");
+ digitalWrite(4,LOW);//LED OFf
+ digitalWrite(0,LOW);
+ servo.write(0);
+ delay(100);
+ }
+ if(value==1 || flamevalue<100){
+ servo.write(90);//Apply breakes
+ }
+ else{
+ servo.write(0);//Normal
+ }
+ delay(1000);
+
+ ThingSpeak.writeField(myChannelNumber, 1,value, myWriteAPIKey);
+//Update in ThingSpeak IR
+ ThingSpeak.writeField(myChannelNumber, 2,flamevalue,
+myWriteAPIKey);//flame value Field2
+ delay(1000);
+ }
